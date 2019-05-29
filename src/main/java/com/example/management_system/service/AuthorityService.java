@@ -14,15 +14,17 @@ public class AuthorityService {
     private UserRepository ur;
     @Autowired
     private UserService us;
-       public User updateAuthority(String number){
-        User user=us.getUser(number);
-        if(user.getAuthority()==User.USER_AUTHORITY){
+
+    //修改用户权限
+    public User updateAuthority(String number) {
+        User user = us.getUser(number);
+        //添加普通用户为管理员
+        if (user.getAuthority() == User.USER_AUTHORITY) {
             user.setAuthority(User.ADMIN_AUTHORITY);
-        }
-        else {
+        } else { //删除管理员(权限)
             user.setAuthority(User.USER_AUTHORITY);
         }
         ur.saveAndFlush(user);
-      return   ur.refresh(user);//add
+        return ur.refresh(user);
     }
 }

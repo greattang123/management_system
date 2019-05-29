@@ -6,12 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
+/**
+ * 用户有两种：教师，管理员/专业主任
+ */
 public class User {
     public static final int USER_AUTHORITY = 1;
     public static final int ADMIN_AUTHORITY = 2;
@@ -22,6 +26,7 @@ public class User {
     private int id;
 
     //姓名
+
     private String name;
     //职称(可更新)
     private String title;
@@ -38,7 +43,8 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     //禁止password序列化
     private String password;
-
+    //监考次数，初始化时为0
+    private int frequency=0;
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
             updatable = false,
             insertable = false)
@@ -52,6 +58,12 @@ public class User {
         this.name = name;
         this.number = number;
         this.password = password;
+    }
+
+    public User(String name, String number) {
+
+        this.name = name;
+        this.number = number;
     }
 
     public User(String number) {

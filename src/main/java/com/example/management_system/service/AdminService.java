@@ -14,11 +14,16 @@ public class AdminService {
     private UserRepository ur;
     @Autowired
     private UserService us;
-    //添加用户
-    public User addUser(User user){
+    @Autowired
+    private InvigilationService is;
+
+    //管理员添加用户
+    public User addUser(User user) {
         return ur.saveAndFlush(user);
     }
-    public User updateUser(User user){
-      return  us.updateInformation(user);
+
+    //修管理员修改用户信息
+    public User updateUser(User user) {
+        return us.updateInformation(user);
     }
 }

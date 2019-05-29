@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,11 +18,12 @@ public class UserService {
     @Autowired
     private UserRepository ur;
 
+    //基于工号获取教师详细信息
     public User getUser(String number) {
         return ur.findByNumber(number);
     }
     /*public void updateTitle(String newTitle,String number){
-        *//*User user=getUser(number);
+     *//*User user=getUser(number);
         user.setTitle(newTitle);*//*
         getUser(number).setTitle(newTitle);
     }
@@ -33,15 +35,20 @@ public class UserService {
     }*/
 
 
-    //更新用户信息
-    public User updateInformation(User user){
+    //修改个人信息
+    public User updateInformation(User user) {
         return Optional.ofNullable(ur.findById(user.getId()))
-                .or(()->{
+                .or(() -> {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "无权限");
                 })
-                .map(a->ur.saveAndFlush(user))
+                .map(a -> ur.saveAndFlush(user))
                 .get();
     }
+
+    public List<User> findAllUser(){
+        return ur.findAllUser();
+    }
+
 }
 
 
