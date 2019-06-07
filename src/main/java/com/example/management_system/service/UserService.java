@@ -17,7 +17,13 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository ur;
+    @Autowired
+    private InvigilationService is;
 
+    //获取指定教师的所有监考信息
+    public void display(int tid){
+        is.checkAllInvigilationByTeacher(tid);
+    }
     //基于工号获取教师详细信息
     public User getUser(String number) {
         return ur.findByNumber(number);

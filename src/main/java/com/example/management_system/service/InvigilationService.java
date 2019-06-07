@@ -31,6 +31,23 @@ public class InvigilationService {
         return ir.listByExam(eid);
     }
 
+    //看所有监考信息，状态，分配结果
+    public void checkAllInvigilationByTeacher(int tid){
+        List<Invigilation>invigilation=findByTeacher(tid);
+        for(Invigilation i:invigilation){
+            //直接输出监考名称（监考信息）
+            log.debug(i.getTitle());
+            //输出监考完成状态
+            log.debug(i.getState());
+           /*每条监考信息只对应一个老师和考试，但一门考试还有其他监考老师
+            ，故先查找该监考信息对应考试，再查找该考试对应的监考信息List，然后在每一个List里查找教师*/
+            Exam exam=i.getExam();
+            List<Invigilation>list=findByExam(exam.getId());
+            for(Invigilation in:list){
+                log.debug(in.getTeacher().getName());
+            }
+        }
+    }
 
     /**
      * maybe throw exception NotFoundException --- listByTeacher(), to be fixed
