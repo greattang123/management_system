@@ -39,6 +39,7 @@ public class Invigilation {
     private LocalDateTime updateTime;
     //所需监考人数，默认为2
     private int needPersons=2;
+    private int allocatedPersons=0;
     private String feedBackMessage="请于考试开始一小时前回复";
     private boolean isOvertime=false;
     public Invigilation(Exam exam) {

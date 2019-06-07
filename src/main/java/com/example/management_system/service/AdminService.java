@@ -37,7 +37,7 @@ public class AdminService {
 
     //管理员分派监考任务
     public void addInvigilation(Invigilation invigilation){
-        int allocateTimes=invigilation.getState();  //state初始为0
+        int allocateTimes=invigilation.getAllocatedPersons();  //state初始为0
         int totalTimes=invigilation.getNeedPersons();//needPersons初始为2
         int rest=totalTimes-allocateTimes;
         for(int i=0;i<rest;i++){
