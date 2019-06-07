@@ -14,8 +14,8 @@ public interface InvigilationRepository extends CustomizedRepository<Invigilatio
     @Query("select i from Invigilation i where i.teacher.id=:tid ")
     List<Invigilation> listByTeacher(@Param("tid") int tid);
 
-   /* @Query("select u from User u where u.id=:id")
-        //基于ID查找用户
-    User findById(@Param("id") int id);*/
 
+
+    @Query("select i from Invigilation i where i.exam.id=:eid ")
+    List<Invigilation> listByExam(@Param("eid") int eid);
 }

@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class Invigilation {
-    public static final int UNALLOCATED=0;
-    public static final int ALLOCATED=1;
-    public static final int COMPLETED=2;
+    public static final String UNALLOCATED="未分配";
+    public static final String ALLOCATED="已分配";
+    public static final String COMPLETED="已完成";
     //默认未分配
-    private int state=0;
+    private String  state="未完成";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -37,10 +37,18 @@ public class Invigilation {
             "CURRENT_TIMESTAMP",
             updatable = false, insertable = false)
     private LocalDateTime updateTime;
-
+    //所需监考人数，默认为2
+    private int needPersons=2;
+    private String feedBackMessage="请于考试开始一小时前回复";
+    private boolean isOvertime=false;
     public Invigilation(Exam exam) {
         this.exam = exam;
     }
 
-
+    public Invigilation(String title, Exam exam, int needPersons) {
+        this.title = title;
+        this.exam = exam;
+        this.needPersons = needPersons;
+        this.title=exam.getName()+"考试";
+    }
 }

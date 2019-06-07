@@ -27,6 +27,10 @@ public class InvigilationService {
         return ir.listByTeacher(tid);
     }
 
+    public List<Invigilation> findByExam(int eid){
+        return ir.listByExam(eid);
+    }
+
     /**
      * maybe throw exception NotFoundException --- listByTeacher(), to be fixed
      *
@@ -53,6 +57,7 @@ public class InvigilationService {
             invigilation.setTeacher(u);
             u.setFrequency(1);
             us.updateInformation(u);
+            invigilation.setState(invigilation.getState()+1);
         } else {
             for (User u : secondUsers) {//保证userAvailable没有监考次数为0，且合要求的教师
                 List<Invigilation> invigilations = ir.listByTeacher(u.getId());
@@ -82,6 +87,7 @@ public class InvigilationService {
                     invigilation.setTeacher(u);
                     u.setFrequency(++times);
                     us.updateInformation(u);
+                    invigilation.setState(invigilation.getState()+1);
                 }
             }
         }

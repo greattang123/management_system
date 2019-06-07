@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Transactional
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/teacher")
 public class TeacherController {
     @Autowired
     private UserService us;
