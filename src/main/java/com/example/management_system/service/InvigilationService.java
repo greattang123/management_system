@@ -31,7 +31,7 @@ public class InvigilationService {
         return ir.listByExam(eid);
     }
 
-    //看所有监考信息，状态，分配结果
+    //查看所有监考信息，状态，分配结果
     public void checkAllInvigilationByTeacher(int tid){
         List<Invigilation>invigilation=findByTeacher(tid);
         for(Invigilation i:invigilation){
