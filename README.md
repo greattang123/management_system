@@ -1,3 +1,6 @@
+### Update 2019 06.09 22：22
+for connection and really sleepy<br>
+but much bug left, disappointed
 ### Update 2019 06.07 15:14
 获取指定教师的所有监考信息
 ### Update 2019.05.29 21:27

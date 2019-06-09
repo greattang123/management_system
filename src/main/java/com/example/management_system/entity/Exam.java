@@ -18,9 +18,10 @@ public class Exam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    //考试开始时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime overTime;
     //持续时间长度
     private int length=2;
     //教室
@@ -33,9 +34,11 @@ public class Exam {
             insertable = false)
     private LocalDateTime insertTime;
 
-    public Exam(String name, LocalDateTime startTime, int classroom, int number) {
+    public Exam(String name, LocalDateTime startTime, LocalDateTime overTime,
+                int classroom, int number) {
         this.name = name;
         this.startTime = startTime;
+        this.overTime=overTime;
         this.classroom = classroom;
         this.number = number;
     }

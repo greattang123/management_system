@@ -11,19 +11,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface ExamRepository extends CustomizedRepository<Exam,Integer> {
+public interface ExamRepository extends CustomizedRepository<Exam, Integer> {
+    //所有考试信息
+    @Query("from Exam ")
+    List<Exam> examList();
+
     @Query("select e from Exam e where e.id=:id")
     Exam findById(@Param("id") int id);
+
     //基于考试编号查找考试
     @Query("select e from Exam e where e.number=:number")
     Exam findByNumber(@Param("number") int number);
+
     //基于考试名查找考试
     @Query("select e from Exam e where e.name=:name")
     List<Exam> findByName(@Param("name") String name);
+
     //基于考试时间和教室查找考试
     @Query("select e from Exam e where e.startTime=:startTime and " +
             "e.classroom=:classroom")
     Exam findByTimeAndClassroom(@Param("startTime") LocalDateTime startTime,
-                                @Param("classroom")int classroom);
+                                @Param("classroom") int classroom);
 }
 
