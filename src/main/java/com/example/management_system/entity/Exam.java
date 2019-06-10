@@ -26,9 +26,9 @@ public class Exam {
     private int length=2;
     //教室
     private int classroom;
-   /* //统一考试编号(唯一)
+   //统一考试编号(唯一)
     @Column(unique = true)
-    private int number;*/
+    private int number;
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
             updatable = false,
             insertable = false)
@@ -40,6 +40,6 @@ public class Exam {
         this.startTime = startTime;
         this.overTime=overTime;
         this.classroom = classroom;
-      /*  this.number = number;*/
+        this.number = number;
     }
 }
