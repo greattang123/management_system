@@ -14,11 +14,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 /**
- * 用户有两种：教师，管理员/专业主任
+ * 用户有三种：教师，管理员/专业主任,
  */
 public class User {
     public static final int USER_AUTHORITY = 1;
     public static final int ADMIN_AUTHORITY = 2;
+    public static final int SUPER_ADMIN_AUTHORITY = 3;
     //未声明时默认为1(教师用户权限)
     private int authority = 1;
     @Id

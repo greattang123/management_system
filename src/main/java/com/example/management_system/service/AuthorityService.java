@@ -16,8 +16,8 @@ public class AuthorityService {
     private UserService us;
 
     //修改用户权限
-    public User updateAuthority(String number) {
-        User user = us.getUser(number);
+    public User updateAuthority(int id) {
+        User user = us.getUser(id);
         //添加普通用户为管理员
         if (user.getAuthority() == User.USER_AUTHORITY) {
             user.setAuthority(User.ADMIN_AUTHORITY);

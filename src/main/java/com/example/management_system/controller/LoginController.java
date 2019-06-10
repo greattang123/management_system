@@ -23,6 +23,7 @@ import java.util.Optional;
 public class LoginController {
     private static final String USER_ROLE = "15ade689eff335c";
     private static final String ADMIN_ROLE = "ff2587edaa6828bde3";
+    private static final String SUPER_ADMIN_ROLE = "2356afcd332d";
     @Autowired
     private UserService us;
     @Autowired
@@ -47,6 +48,8 @@ public class LoginController {
                         role = USER_ROLE;
                     } else if (u.getAuthority() == User.ADMIN_AUTHORITY) {
                         role = ADMIN_ROLE;
+                    }else if(u.getAuthority()==User.SUPER_ADMIN_AUTHORITY){
+                        role=SUPER_ADMIN_ROLE;
                     }
                     response.setHeader("role", role);
                 }, () -> {
