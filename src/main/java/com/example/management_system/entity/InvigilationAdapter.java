@@ -10,4 +10,5 @@ import java.util.List;
 public class InvigilationAdapter {
     private Exam exam;
     private List<User> teachers;
+    private Invigilation invigilation;
 }

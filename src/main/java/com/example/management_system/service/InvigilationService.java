@@ -131,12 +131,15 @@ public class InvigilationService {
     }
 
     public List<InvigilationAdapter> listAdapter() {
-        List<InvigilationAdapter> adapters =new ArrayList<>();
+        List<InvigilationAdapter> adapters = new ArrayList<>();
         List<Exam> exams = es.examList();
         for (Exam e : exams) {
             InvigilationAdapter adapter = new InvigilationAdapter();
             adapter.setExam(e);
             adapter.setTeachers(ir.getTeachersByExam(e.getId()));
+            List<Invigilation> invigilations = ir.listByExam(e.getId());
+//            Invigilation invigilation = invigilations.get(0);
+            adapter.setInvigilation(new Invigilation());
             adapters.add(adapter);
         }
         return adapters;
