@@ -138,8 +138,9 @@ public class InvigilationService {
             adapter.setExam(e);
             adapter.setTeachers(ir.getTeachersByExam(e.getId()));
             List<Invigilation> invigilations = ir.listByExam(e.getId());
-//            Invigilation invigilation = invigilations.get(0);
-            adapter.setInvigilation(new Invigilation());
+//            log.debug("length:{}", invigilations.size());
+            Invigilation invigilation = invigilations.get(0);
+            adapter.setInvigilation(invigilation);
             adapters.add(adapter);
         }
         return adapters;
