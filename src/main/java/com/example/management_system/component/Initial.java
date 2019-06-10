@@ -32,7 +32,7 @@ public class Initial implements InitializingBean {
             user1.setAuthority(User.ADMIN_AUTHORITY);
             user1.setName("Earth");
             user1.setNumber("2");
-            user1.setPassword(pe.encode(user.getNumber()));
+            user1.setPassword(pe.encode(user1.getNumber()));
             ur.save(user1);
         }
     }
