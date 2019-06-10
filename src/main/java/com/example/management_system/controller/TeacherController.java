@@ -30,8 +30,8 @@ public class TeacherController {
         return Map.of("invigilations",is.listAdapter() );
     }
     @GetMapping("/personal/invigilations")
-    public Map getPersonalInvigilations(@RequestBody User user){
-        return Map.of("personalInvigilations", is.findByTeacher(user.getId()));
+    public Map getPersonalInvigilations(@RequestAttribute int uid){
+        return Map.of("personalInvigilations", is.findByTeacher(uid));
     }
 }
 
