@@ -29,10 +29,10 @@ public class Initial implements InitializingBean {
             ur.save(user);
 
             User user1=new User();
-            user.setAuthority(User.ADMIN_AUTHORITY);
-            user.setName("Earth");
-            user.setNumber("2");
-            user.setPassword(pe.encode(user.getNumber()));
+            user1.setAuthority(User.ADMIN_AUTHORITY);
+            user1.setName("Earth");
+            user1.setNumber("2");
+            user1.setPassword(pe.encode(user.getNumber()));
             ur.save(user1);
         }
     }
