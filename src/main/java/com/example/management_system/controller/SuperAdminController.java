@@ -18,7 +18,7 @@ public class SuperAdminController {
     @Autowired
     private UserService us;
     @PostMapping("/updateAuthority")
-    public Map updateAuthority(@PathVariable int id){
+    public Map updateAuthority(@RequestBody int id){
         as.updateAuthority(id);
         return Map.of("user",us.getUser(id));
     }
