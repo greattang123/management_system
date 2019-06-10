@@ -2,6 +2,7 @@ package com.example.management_system.service;
 
 import com.example.management_system.entity.Exam;
 import com.example.management_system.entity.Invigilation;
+import com.example.management_system.entity.InvigilationAdapter;
 import com.example.management_system.entity.User;
 import com.example.management_system.repository.InvigilationRepository;
 import com.example.management_system.repository.UserRepository;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class InvigilationService {
+    @Autowired
+    private ExamService es;
     @Autowired
     private InvigilationRepository ir;
     @Autowired
@@ -52,9 +55,9 @@ public class InvigilationService {
     /**
      * maybe throw exception NotFoundException --- listByTeacher(), to be fixed
      *
-     * @param invigilation
+     * @param
      */
-    public void assign(Invigilation invigilation) {
+    /*public void assign(Invigilation invigilation) {
         Exam exam = invigilation.getExam();
         LocalDateTime startTime = exam.getStartTime();
         int classroom = exam.getClassroom();
@@ -109,6 +112,18 @@ public class InvigilationService {
                 }
             }
         }
+
+    }*/
+
+    public void assign(InvigilationAdapter ia){
+        Exam exam=ia.getExam();
+        es.addExam(exam);
+        List<User>teachers=ia.getTeachers();
+        teachers.forEach(t->{
+            Invigilation newInv=new Invigilation(exam);
+            newInv.setTeacher(t);
+            ir.save(newInv);
+        });
 
     }
 }
