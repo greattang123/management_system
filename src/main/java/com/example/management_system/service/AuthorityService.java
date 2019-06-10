@@ -25,6 +25,6 @@ public class AuthorityService {
             user.setAuthority(User.USER_AUTHORITY);
         }
         ur.saveAndFlush(user);
-        return ur.refresh(user);
+        return user;
     }
 }
