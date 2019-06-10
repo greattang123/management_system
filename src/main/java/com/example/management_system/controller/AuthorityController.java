@@ -17,9 +17,9 @@ public class AuthorityController {
     private AuthorityService as;
     @Autowired
     private UserService us;
-    @PostMapping("/authority/{number}")
-    public Map patchAuthority(@PathVariable String number){
-        as.updateAuthority(number);
-        return Map.of("user",us.getUser(number));
+    @PostMapping("/authority/{uid}")
+    public Map patchAuthority(@PathVariable int uid){
+        as.updateAuthority(uid);
+        return Map.of("user",us.getUser(uid));
     }
 }

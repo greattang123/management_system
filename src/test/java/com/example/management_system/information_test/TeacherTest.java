@@ -47,12 +47,12 @@ public class TeacherTest {
         us.updateInformation(user);
     }
 
-    @Test
+   /* @Test
     public void updateAuthorityTest() {
         User user = us.getUser("5");
         log.debug("{}", user.getAuthority());
         log.debug("{}", aus.updateAuthority("5").getAuthority());
-    }
+    }*/
 
     @Test
     public  void test1(){
