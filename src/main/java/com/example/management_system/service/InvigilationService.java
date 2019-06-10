@@ -116,7 +116,8 @@ public class InvigilationService {
 
    public void assign(InvigilationAdapter ia){
        Exam exam=ia.getExam();
-       es.addExam(exam);
+       log.debug("{}", exam.getStartTime());
+//       es.addExam(exam);
        List<User>teachers=ia.getTeachers();
       teachers.forEach(t->{
           Invigilation invigilation=new Invigilation();
