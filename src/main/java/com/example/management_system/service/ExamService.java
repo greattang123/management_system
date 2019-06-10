@@ -31,6 +31,9 @@ public class ExamService {
        }*/
       //如果数据库中未找到与该段时间和教室相匹配的考试，则返回null
         Exam exam = null;
+
+
+
         try {
             exam = er.findByTimeAndClassroom(startTime, classroom);
         } catch (Exception e) {
