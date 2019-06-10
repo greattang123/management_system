@@ -18,4 +18,11 @@ public interface InvigilationRepository extends CustomizedRepository<Invigilatio
 
     @Query("select i from Invigilation i where i.exam.id=:eid ")
     List<Invigilation> listByExam(@Param("eid") int eid);
+
+    @Query(" from Invigilation ")
+    List<Invigilation>list();
+
+    @Query("select i.teacher from Invigilation i where i.exam.id=:eid ")
+    List<User> getTeachersByExam(@Param("eid") int eid);
+
 }

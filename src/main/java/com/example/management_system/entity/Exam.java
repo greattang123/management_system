@@ -27,7 +27,7 @@ public class Exam {
     //教室
     private int classroom;
    //统一考试编号(唯一)
-    @Column(unique = true)
+//    @Column(unique = true)
     private int number;
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
             updatable = false,
@@ -35,7 +35,7 @@ public class Exam {
     private LocalDateTime insertTime;
 
     public Exam(String name, LocalDateTime startTime, LocalDateTime overTime,
-                int classroom) {
+                int classroom,int number) {
         this.name = name;
         this.startTime = startTime;
         this.overTime=overTime;
