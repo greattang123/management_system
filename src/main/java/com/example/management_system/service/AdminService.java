@@ -2,6 +2,7 @@ package com.example.management_system.service;
 
 import com.example.management_system.entity.Exam;
 import com.example.management_system.entity.Invigilation;
+import com.example.management_system.entity.InvigilationAdapter;
 import com.example.management_system.entity.User;
 import com.example.management_system.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +37,14 @@ public class AdminService {
     }
 
     //管理员分派监考任务
-    public void addInvigilation(Invigilation invigilation){
-        int allocateTimes=invigilation.getAllocatedPersons();  //state初始为0
+    public void addInvigilation(InvigilationAdapter invigilation){
+       /* int allocateTimes=invigilation.getAllocatedPersons();  //state初始为0
         int totalTimes=invigilation.getNeedPersons();//needPersons初始为2
         int rest=totalTimes-allocateTimes;
-        for(int i=0;i<rest;i++){
+        for(int i=0;i<rest;i++)*/
+
             is.assign(invigilation);
-        }
+
     }
 
     public void sendMessage(Exam exam){
