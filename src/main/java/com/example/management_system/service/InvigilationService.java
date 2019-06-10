@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @Service
 public class InvigilationService {
     @Autowired
+    private ExamService es;
+    @Autowired
     private InvigilationRepository ir;
     @Autowired
     private UserService us;
@@ -50,9 +52,8 @@ public class InvigilationService {
     }
 
     /**
-     * maybe throw exception NotFoundException --- listByTeacher(), to be fixed
      *
-     * @param invigilation
+     * @param
      */
     public void assign(Invigilation invigilation) {
         Exam exam = invigilation.getExam();
@@ -111,5 +112,6 @@ public class InvigilationService {
         }
 
     }
+
 }
 

@@ -42,14 +42,15 @@ public class Invigilation {
     private int allocatedPersons=0;
     private String feedBackMessage="请于考试开始一小时前回复";
     private boolean isOvertime=false;
+
     public Invigilation(Exam exam) {
         this.exam = exam;
     }
 
-    public Invigilation(String title, Exam exam, int needPersons) {
-        this.title = title;
+    public Invigilation( Exam exam, int needPersons,User teacher) {
         this.exam = exam;
         this.needPersons = needPersons;
         this.title=exam.getName()+"考试";
+        this.teacher=teacher;
     }
 }
