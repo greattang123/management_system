@@ -18,8 +18,8 @@ public class SuperAdminController {
     @Autowired
     private UserService us;
     @PostMapping("/updateAuthority")
-    public Map updateAuthority(@RequestBody int id){
-        as.updateAuthority(id);
-        return Map.of("user",us.getUser(id));
+    public Map updateAuthority(@RequestBody int tid){
+        as.updateAuthority(tid);
+        return Map.of("user",us.getUser(tid));
     }
 }
