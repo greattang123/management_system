@@ -22,6 +22,12 @@ public class Initial implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         if(ur.count()==0){
             User user=new User();
+            user.setAuthority(User.SUPER_ADMIN_AUTHORITY);
+            user.setName("GT");
+            user.setNumber("666");
+            user.setPassword(pe.encode(user.getNumber()));
+            ur.save(user);
+           /* User user=new User();
             user.setAuthority(User.USER_AUTHORITY);
             user.setName("Sun");
             user.setNumber("3");
@@ -33,7 +39,7 @@ public class Initial implements InitializingBean {
             user1.setName("Earth");
             user1.setNumber("2");
             user1.setPassword(pe.encode(user1.getNumber()));
-            ur.save(user1);
+            ur.save(user1);*/
         }
     }
 }
