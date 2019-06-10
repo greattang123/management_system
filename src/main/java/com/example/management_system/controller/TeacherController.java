@@ -10,15 +10,20 @@ import java.util.Map;
 
 @Transactional
 @RestController
-@RequestMapping("/api/teacher")
+@RequestMapping("/api/teachers")
 public class TeacherController {
     @Autowired
     private UserService us;
 
-    @PatchMapping("/update")
+    @PostMapping("/update")
     public Map update(@RequestBody User user){
         return Map.of("user", us.updateInformation(user));
     }
+    @GetMapping("/getInfor")
+    public Map get(@RequestAttribute int uid){
+        return Map.of("user",us.getUser(uid));
+    }
+
 }
 
 

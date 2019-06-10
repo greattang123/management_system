@@ -4,6 +4,7 @@ import com.example.management_system.entity.User;
 import com.example.management_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,7 +20,8 @@ public class UserService {
     private UserRepository ur;
     @Autowired
     private InvigilationService is;
-
+    @Autowired
+    private PasswordEncoder pe;
     //获取指定教师的所有监考信息
     public void display(int tid){
         is.checkAllInvigilationByTeacher(tid);
@@ -28,6 +30,7 @@ public class UserService {
     public User getUser(String number) {
         return ur.findByNumber(number);
     }
+    public User getUser(int id){return ur.findById(id);}
     /*public void updateTitle(String newTitle,String number){
      *//*User user=getUser(number);
         user.setTitle(newTitle);*//*
@@ -43,6 +46,7 @@ public class UserService {
 
     //修改个人信息
     public User updateInformation(User user) {
+        user.setPassword(pe.encode(user.getNumber()));
         return Optional.ofNullable(ur.findById(user.getId()))
                 .or(() -> {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "无权限");
@@ -54,6 +58,8 @@ public class UserService {
     public List<User> findAllUser(){
         return ur.findAllUser();
     }
+
+    
 
 }
 

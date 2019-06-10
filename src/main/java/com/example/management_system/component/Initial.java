@@ -20,11 +20,11 @@ public class Initial implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if(ur.count()==1){
+        if(ur.count()==0){
             User user=new User();
-            user.setAuthority(User.ADMIN_AUTHORITY);
-            user.setName("Moon");
-            user.setNumber("2");
+            user.setAuthority(User.USER_AUTHORITY);
+            user.setName("Sun");
+            user.setNumber("3");
             user.setPassword(pe.encode(user.getNumber()));
             ur.save(user);
         }

@@ -15,7 +15,8 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private AdminService as;
-
+    @Autowired
+    private UserService us;
     @PostMapping("/add")
     public Map postUser(@RequestBody User user){
         as.addUser(user);
@@ -26,6 +27,11 @@ public class AdminController {
     public Map patchUser(@RequestBody User user){
         as.updateUser(user);
         return Map.of("user",user);
+    }
+
+    @GetMapping("/listTeachers")
+    public  Map listTeachers(){
+        return Map.of("teachers",us.findAllUser());
     }
 
 }
