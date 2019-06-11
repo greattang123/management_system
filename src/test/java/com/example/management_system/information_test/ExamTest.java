@@ -20,8 +20,8 @@ public class ExamTest {
 
     @Test
     public void findExamTest() {
-        int classroom = 402;
-        LocalDateTime startTime = LocalDateTime.parse("2019-06-06T16:00");
+        int classroom = 303;
+        LocalDateTime startTime = LocalDateTime.parse("2019-06-09T14:00");
         Exam exam = es.findExamByTimeAndClassroom(startTime, classroom);
         if (exam != null)
             log.debug("{}", exam.getClass().getName());

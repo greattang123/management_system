@@ -2,6 +2,7 @@ package com.example.management_system.service;
 
 import com.example.management_system.entity.Exam;
 import com.example.management_system.entity.Invigilation;
+import com.example.management_system.entity.InvigilationAdapter;
 import com.example.management_system.entity.User;
 import com.example.management_system.repository.InvigilationRepository;
 import com.example.management_system.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,36 +28,39 @@ public class InvigilationService {
     private UserRepository ur;
 
     public List<Invigilation> findByTeacher(int tid) {
+        log.debug("findByTeacher");
+        ir.listByTeacher(tid).forEach(invigilation -> {
+            log.debug(invigilation.getExam().getName());
+        });
         return ir.listByTeacher(tid);
     }
 
-    public List<Invigilation> findByExam(int eid){
+    public List<Invigilation> findByExam(int eid) {
         return ir.listByExam(eid);
     }
 
     //查看所有监考信息，状态，分配结果
-    public void checkAllInvigilationByTeacher(int tid){
-        List<Invigilation>invigilation=findByTeacher(tid);
-        for(Invigilation i:invigilation){
+    public void checkAllInvigilationByTeacher(int tid) {
+        List<Invigilation> invigilation = findByTeacher(tid);
+        for (Invigilation i : invigilation) {
             //直接输出监考名称（监考信息）
             log.debug(i.getTitle());
             //输出监考完成状态
             log.debug(i.getState());
            /*每条监考信息只对应一个老师和考试，但一门考试还有其他监考老师
             ，故先查找该监考信息对应考试，再查找该考试对应的监考信息List，然后在每一个List里查找教师*/
-            Exam exam=i.getExam();
-            List<Invigilation>list=findByExam(exam.getId());
-            for(Invigilation in:list){
+            Exam exam = i.getExam();
+            List<Invigilation> list = findByExam(exam.getId());
+            for (Invigilation in : list) {
                 log.debug(in.getTeacher().getName());
             }
         }
     }
 
     /**
-     *
      * @param
      */
-    public void assign(Invigilation invigilation) {
+   /* public void assign(Invigilation invigilation) {
         Exam exam = invigilation.getExam();
         LocalDateTime startTime = exam.getStartTime();
         int classroom = exam.getClassroom();
@@ -111,9 +116,39 @@ public class InvigilationService {
             }
         }
 
+    }*/
+    public void assign(InvigilationAdapter ia) {
+        Exam exam = ia.getExam();
+        log.debug("{}", exam.getStartTime());
+        es.addExam(exam);
+        List<User> teachers = ia.getTeachers();
+        teachers.forEach(t -> {
+            Invigilation invigilation = new Invigilation();
+            invigilation.setExam(exam);
+            invigilation.setTeacher(t);
+            ir.saveAndFlush(invigilation);
+        });
     }
 
+    public List<Invigilation> list() {
+        return ir.list();
+    }
 
+    public List<InvigilationAdapter> listAdapter() {
+        List<InvigilationAdapter> adapters = new ArrayList<>();
+        List<Exam> exams = es.examList();
+        for (Exam e : exams) {
+            InvigilationAdapter adapter = new InvigilationAdapter();
+            adapter.setExam(e);
+            adapter.setTeachers(ir.getTeachersByExam(e.getId()));
+            List<Invigilation> invigilations = ir.listByExam(e.getId());
+//            log.debug("length:{}", invigilations.size());
+            Invigilation invigilation = invigilations.get(0);
+            adapter.setInvigilation(invigilation);
+            adapters.add(adapter);
+        }
+        return adapters;
+    }
 
 }
 
