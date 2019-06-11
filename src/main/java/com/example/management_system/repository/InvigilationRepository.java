@@ -14,7 +14,9 @@ public interface InvigilationRepository extends CustomizedRepository<Invigilatio
     @Query("select i from Invigilation i where i.teacher.id=:tid ")
     List<Invigilation> listByTeacher(@Param("tid") int tid);
 
-
+    //通过ID查找监考信息
+    @Query("select i from Invigilation i where i.id=:iid")
+    Invigilation findById(@Param("iid")int iid);
 
     @Query("select i from Invigilation i where i.exam.id=:eid ")
     List<Invigilation> listByExam(@Param("eid") int eid);
@@ -24,5 +26,10 @@ public interface InvigilationRepository extends CustomizedRepository<Invigilatio
 
     @Query("select i.teacher from Invigilation i where i.exam.id=:eid ")
     List<User> getTeachersByExam(@Param("eid") int eid);
+
+    //删除已分配的监考任务
+    @Query("delete from Invigilation i where i.exam.id=:eid")
+    void deleteByExam(@Param("eid")int eid);
+
 
 }

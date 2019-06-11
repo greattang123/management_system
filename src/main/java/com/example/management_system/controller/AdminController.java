@@ -1,5 +1,6 @@
 package com.example.management_system.controller;
 
+import com.example.management_system.entity.Invigilation;
 import com.example.management_system.entity.InvigilationAdapter;
 import com.example.management_system.entity.User;
 import com.example.management_system.service.AdminService;
@@ -23,12 +24,14 @@ public class AdminController {
     @Autowired
     private UserService us;
 
+    //添加用户
     @PostMapping("/add")
     public Map postUser(@RequestBody User user) {
         as.addUser(user);
         return Map.of("user", user);
     }
 
+    //修改用户
     @PostMapping("/update")
     public Map patchUser(@RequestBody User user) {
         as.updateUser(user);
@@ -51,4 +54,8 @@ public class AdminController {
         return Map.of("invigilations",is.listAdapter() );
     }
 
+    @PostMapping("/update/invigilation")
+    public void updateInvigilation(InvigilationAdapter ia){
+        is.updateInformation(ia);
+    }
 }

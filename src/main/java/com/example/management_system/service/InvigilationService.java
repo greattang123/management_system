@@ -8,11 +8,14 @@ import com.example.management_system.repository.InvigilationRepository;
 import com.example.management_system.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,6 +29,10 @@ public class InvigilationService {
     private UserService us;
     @Autowired
     private UserRepository ur;
+
+    public Invigilation findById(int iid){
+        return ir.findById(iid);
+    }
 
     public List<Invigilation> findByTeacher(int tid) {
         log.debug("findByTeacher");
@@ -122,12 +129,22 @@ public class InvigilationService {
         log.debug("{}", exam.getStartTime());
         es.addExam(exam);
         List<User> teachers = ia.getTeachers();
-        teachers.forEach(t -> {
+
+        if(teachers.size()!=0){
+            teachers.forEach(t -> {
+                Invigilation invigilation = new Invigilation();
+                invigilation.setExam(exam);
+                invigilation.setTitle(exam.getName()+"监考");
+                invigilation.setTeacher(t);
+                ir.saveAndFlush(invigilation);
+            });
+        }else {
             Invigilation invigilation = new Invigilation();
             invigilation.setExam(exam);
-            invigilation.setTeacher(t);
+            invigilation.setTitle(exam.getName()+"监考");
             ir.saveAndFlush(invigilation);
-        });
+        }
+
     }
 
     public List<Invigilation> list() {
@@ -150,5 +167,19 @@ public class InvigilationService {
         return adapters;
     }
 
+    //修改监考信息
+    public void updateInformation(InvigilationAdapter ia) {
+      ir.deleteByExam(ia.getExam().getId());
+      assign(ia);
+
+
+
+      /*  return Optional.ofNullable(ir.findById(invigilation.getId()))
+                .or(() -> {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "无权限");
+                })
+                .map(a -> ir.saveAndFlush(invigilation))
+                .get();*/
+    }
 }
 

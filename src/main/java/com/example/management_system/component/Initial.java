@@ -36,7 +36,7 @@ public class Initial implements InitializingBean {
             ur.save(user1);
 
             User user2=new User();
-            user2.setAuthority(User.ADMIN_AUTHORITY);
+            user2.setAuthority(User.USER_AUTHORITY);
             user2.setName("Moon");
             user2.setNumber("3");
             user2.setPassword(pe.encode(user2.getNumber()));
