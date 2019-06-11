@@ -55,7 +55,7 @@ public class AdminController {
     }
 
     @PostMapping("/update/invigilation")
-    public void updateInvigilation(InvigilationAdapter ia){
-        is.updateInformation(ia);
+    public Map updateInvigilation(InvigilationAdapter ia){
+        return Map.of("newInvigilation",is.updateInformation(ia));
     }
 }

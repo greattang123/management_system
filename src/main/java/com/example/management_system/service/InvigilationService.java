@@ -168,10 +168,11 @@ public class InvigilationService {
     }
 
     //修改监考信息
-    public void updateInformation(InvigilationAdapter ia) {
-      ir.deleteByExam(ia.getExam().getId());
-      assign(ia);
-
+    public List<Invigilation> updateInformation(InvigilationAdapter ia) {
+      Exam exam=ia.getExam();
+//      ir.deleteByExam(exam.getId());
+//      assign(ia);
+      return ir.listByExam(exam.getId());
 
 
       /*  return Optional.ofNullable(ir.findById(invigilation.getId()))
