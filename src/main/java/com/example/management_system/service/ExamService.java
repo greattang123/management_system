@@ -1,5 +1,6 @@
 package com.example.management_system.service;
 
+import com.example.management_system.component.MyException;
 import com.example.management_system.entity.Exam;
 import com.example.management_system.repository.ExamRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,11 @@ public class ExamService {
     public List<Exam> examList() {
         return er.examList();
     }
+
+    public void deleteById(int eid){
+        er.deleteById(eid);
+    }
+
 
     public Exam findExamByTimeAndClassroom(LocalDateTime startTime, int classroom) {
 //        return er.findByTimeAndClassroom(startTime, classroom);

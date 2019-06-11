@@ -29,7 +29,9 @@ public class InvigilationService {
     private UserService us;
     @Autowired
     private UserRepository ur;
-
+    public void deleteByExam(int eid){
+        ir.deleteByExam(eid);
+    }
     public Invigilation findById(int iid){
         return ir.findById(iid);
     }
@@ -170,8 +172,9 @@ public class InvigilationService {
     //修改监考信息
     public List<Invigilation> updateInformation(InvigilationAdapter ia) {
       Exam exam=ia.getExam();
-//      ir.deleteByExam(exam.getId());
-//      assign(ia);
+      ir.deleteByExam(exam.getId());
+//      es.deleteById(exam.getId());
+      assign(ia);
       return ir.listByExam(exam.getId());
 
 

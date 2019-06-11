@@ -17,7 +17,7 @@ public interface UserRepository extends CustomizedRepository<User, Integer> {
     //基于工号查找教师
     User findByNumber(@Param("number")String number);
     //获取所有用户列表
-    @Query("select u from User u where u.name is not null ")
+    @Query("select u from User u where u.name is not null order by u.frequency ")
     List<User> findAllUser();
 
     /*@Query("select u from User u where u.frequency=:min(frequency)")

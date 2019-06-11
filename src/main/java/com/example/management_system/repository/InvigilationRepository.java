@@ -2,6 +2,8 @@ package com.example.management_system.repository;
 
 import com.example.management_system.entity.Invigilation;
 import com.example.management_system.entity.User;
+import org.hibernate.sql.Delete;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -28,6 +30,7 @@ public interface InvigilationRepository extends CustomizedRepository<Invigilatio
     List<User> getTeachersByExam(@Param("eid") int eid);
 
     //删除已分配的监考任务
+    @Modifying
     @Query("delete from Invigilation i where i.exam.id=:eid")
     void deleteByExam(@Param("eid")int eid);
 
