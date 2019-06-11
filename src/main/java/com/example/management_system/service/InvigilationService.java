@@ -28,6 +28,10 @@ public class InvigilationService {
     private UserRepository ur;
 
     public List<Invigilation> findByTeacher(int tid) {
+        log.debug("findByTeacher");
+        ir.listByTeacher(tid).forEach(invigilation -> {
+            log.debug(invigilation.getExam().getName());
+        });
         return ir.listByTeacher(tid);
     }
 

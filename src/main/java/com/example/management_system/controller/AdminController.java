@@ -29,7 +29,7 @@ public class AdminController {
         return Map.of("user", user);
     }
 
-    @PatchMapping("/update")
+    @PostMapping("/update")
     public Map patchUser(@RequestBody User user) {
         as.updateUser(user);
         return Map.of("user", user);
