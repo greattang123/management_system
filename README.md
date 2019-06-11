@@ -1,3 +1,5 @@
+### Update 2019 06.11 14:38
+去掉了延时加载
 ### Update 2019 06.09 22：22
 for connection and really sleepy<br>
 but much bug left, disappointed

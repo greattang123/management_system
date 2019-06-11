@@ -21,14 +21,17 @@ public class TeacherController {
     public Map update(@RequestBody User user){
         return Map.of("user", us.updateInformation(user));
     }
+
     @GetMapping("/getInfor")
     public Map get(@RequestAttribute int uid){
         return Map.of("user",us.getUser(uid));
     }
+
     @GetMapping("/invigilations")
     public Map getInvigilations(){
-        return Map.of("invigilations",is.listAdapter() );
+        return Map.of("invigilations",is.list() );
     }
+
     @GetMapping("/personal/invigilations")
     public Map getPersonalInvigilations(@RequestAttribute int uid){
         return Map.of("personalInvigilations", is.findByTeacher(uid));

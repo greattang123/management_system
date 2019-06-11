@@ -22,10 +22,10 @@ public class Invigilation {
     private int id;
     private String title;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY,
+    @ManyToOne(
             cascade = CascadeType.REMOVE)
     private Exam exam;
-    @ManyToOne(fetch = FetchType.LAZY,
+    @ManyToOne(
             cascade = CascadeType.REMOVE)
     private User teacher;
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",

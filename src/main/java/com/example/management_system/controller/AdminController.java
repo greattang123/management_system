@@ -46,4 +46,9 @@ public class AdminController {
         return Map.of("invigilation",ia);
     }
 
+    @GetMapping("/invigilations")
+    public Map getInvigilations(){
+        return Map.of("invigilations",is.listAdapter() );
+    }
+
 }
