@@ -42,10 +42,11 @@ public class InvigilationService {
     }
 
     public List<Invigilation> findByTeacher(int tid) {
-        log.debug("findByTeacher");
+      //控制台输出不友好1
+        /*  log.debug("findByTeacher");
         ir.listByTeacher(tid).forEach(invigilation -> {
             log.debug(invigilation.getExam().getName());
-        });
+        });*/
         return ir.listByTeacher(tid);
     }
 
