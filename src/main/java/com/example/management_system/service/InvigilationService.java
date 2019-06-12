@@ -149,6 +149,9 @@ public class InvigilationService {
         if (teachers.size() != 0) {
             User teacherRandom = teachers.get(0);
             teachers.forEach(t -> {
+                if( as.isConflict(t, exam)){
+                    conflictMessage+=(t.getName()+" ");
+                }
                 //分配监考并将对应监考教师监考次数加1
                 Invigilation invigilation = new Invigilation();
                 invigilation.setExam(exam);
@@ -159,10 +162,6 @@ public class InvigilationService {
                 t.setPassword(pe.encode(t.getNumber()));
                 ur.saveAndFlush(t);
                 message += t.getName() + " ";
-
-                if( as.isConflict(t, exam)){
-                    conflictMessage+=(t.getName()+" ");
-                }
             });
             message += "\n" + teacherRandom.getName() + "同志，您当前监考次数为：" + teacherRandom.getFrequency();
             log.debug(message);
@@ -172,7 +171,7 @@ public class InvigilationService {
             invigilation.setTitle(exam.getName() + "监考");
             ir.saveAndFlush(invigilation);
         }
-      conflictMessage= conflictMessage!=null? conflictMessage+"时间冲突":null;
+      conflictMessage= conflictMessage!=""? conflictMessage+"时间冲突":"";
         ia.getExam().setId(exam.getId());
         Conflict conflict=new Conflict(ia,conflictMessage);
         return conflict;
