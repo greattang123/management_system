@@ -27,8 +27,8 @@ public class AdminController {
     //添加用户
     @PostMapping("/add")
     public Map postUser(@RequestBody User user) {
-        as.addUser(user);
-        return Map.of("user", user);
+
+        return Map.of("newTeacher",  as.addUser(user));
     }
 
     //修改用户
