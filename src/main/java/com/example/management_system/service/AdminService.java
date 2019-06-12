@@ -64,7 +64,7 @@ public class AdminService {
             List<Invigilation>list=is.findByTeacher(teacher.getId());
             for(Invigilation i:list){
                 if(i.getExam().getStartTime().toString().equals(exam.getStartTime().toString())){
-                   log.debug("Hi");
+//                   log.debug("Hi");
                     return true;
                 }
             }

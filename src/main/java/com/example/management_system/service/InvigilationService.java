@@ -31,7 +31,7 @@ public class InvigilationService {
     private PasswordEncoder pe;
     //监考消息
     private String message;
-    private String conflictMessage=null;
+    private String conflictMessage="";
 
     public void deleteByExam(int eid) {
         ir.deleteByExam(eid);
@@ -144,6 +144,7 @@ public class InvigilationService {
                 "\n监考地点：" +
                 exam.getClassroom() +
                 "\n监考教师：";
+        conflictMessage="";
         if (teachers.size() != 0) {
             User teacherRandom = teachers.get(0);
             teachers.forEach(t -> {
@@ -157,6 +158,7 @@ public class InvigilationService {
                 t.setPassword(pe.encode(t.getNumber()));
                 ur.saveAndFlush(t);
                 message += t.getName() + " ";
+
                 if( as.isConflict(t, exam)){
                     conflictMessage+=(t.getName()+" ");
                 }
@@ -170,7 +172,7 @@ public class InvigilationService {
             ir.saveAndFlush(invigilation);
         }
       conflictMessage= conflictMessage!=null? conflictMessage+"时间冲突":null;
-
+        ia.getExam().setId(exam.getId());
         Conflict conflict=new Conflict(ia,conflictMessage);
         return conflict;
     }
@@ -201,13 +203,11 @@ public class InvigilationService {
     }
 
     //修改监考信息
-    public List<Invigilation> updateInformation(InvigilationAdapter ia) {
+    public Conflict updateInformation(InvigilationAdapter ia) {
         Exam exam = ia.getExam();
         ir.deleteByExam(exam.getId());
 //      es.deleteById(exam.getId());
-        assign(ia);
-        return ir.listByExam(exam.getId());
-
+       return assign(ia);
 
       /*  return Optional.ofNullable(ir.findById(invigilation.getId()))
                 .or(() -> {

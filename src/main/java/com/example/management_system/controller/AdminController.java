@@ -45,8 +45,8 @@ public class AdminController {
 
     @PostMapping("/add/invigilation")
     public Map addInvigilation(@RequestBody InvigilationAdapter ia) {
-        is.assign(ia);
-        return Map.of("invigilation",ia);
+//        is.assign(ia);
+        return Map.of("invigilation", is.assign(ia));
     }
 
     @GetMapping("/invigilations")
@@ -56,6 +56,6 @@ public class AdminController {
 
     @PostMapping("/update/invigilation")
     public Map updateInvigilation(@RequestBody InvigilationAdapter ia){
-        return Map.of("newInvigilation",is.updateInformation(ia));
+        return Map.of("invigilation",is.updateInformation(ia));
     }
 }
