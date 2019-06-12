@@ -42,6 +42,11 @@ public class TeacherController {
     public Map getPersonalInvigilations(@RequestAttribute int uid){
         return Map.of("personalInvigilations", is.findByTeacher(uid));
     }
+
+    @PostMapping("/invigilation/{id}/feedBackMessage")
+    public Map feedBack(@RequestBody Invigilation invigilation){
+        return Map.of("feedBackMessage", is.feedBackMessage(invigilation));
+    }
 }
 
 

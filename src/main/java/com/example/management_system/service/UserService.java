@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -58,8 +59,6 @@ public class UserService {
     public List<User> findAllUser(){
         return ur.findAllUser();
     }
-
-    
 
 }
 

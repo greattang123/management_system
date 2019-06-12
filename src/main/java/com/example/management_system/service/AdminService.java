@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -58,5 +59,18 @@ public class AdminService {
         log.debug("{}",teacher.getFrequency());
     }
 
+    public boolean isConflict(User teacher,Exam exam){
+        if(teacher.getFrequency()!=0){
+            List<Invigilation>list=is.findByTeacher(teacher.getId());
+            for(Invigilation i:list){
+                if(i.getExam().getStartTime().toString().equals(exam.getStartTime().toString())){
+                   log.debug("Hi");
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
 }

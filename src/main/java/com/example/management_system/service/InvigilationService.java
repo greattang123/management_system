@@ -1,26 +1,24 @@
 package com.example.management_system.service;
 
-import com.example.management_system.entity.Exam;
-import com.example.management_system.entity.Invigilation;
-import com.example.management_system.entity.InvigilationAdapter;
-import com.example.management_system.entity.User;
+import com.example.management_system.entity.*;
 import com.example.management_system.repository.InvigilationRepository;
 import com.example.management_system.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.apache.bcel.generic.RET;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class InvigilationService {
+    @Autowired
+    private AdminService as;
     @Autowired
     private ExamService es;
     @Autowired
@@ -29,10 +27,17 @@ public class InvigilationService {
     private UserService us;
     @Autowired
     private UserRepository ur;
-    public void deleteByExam(int eid){
+    @Autowired
+    private PasswordEncoder pe;
+    //监考消息
+    private String message;
+    private String conflictMessage=null;
+
+    public void deleteByExam(int eid) {
         ir.deleteByExam(eid);
     }
-    public Invigilation findById(int iid){
+
+    public Invigilation findById(int iid) {
         return ir.findById(iid);
     }
 
@@ -126,31 +131,57 @@ public class InvigilationService {
         }
 
     }*/
-    public void assign(InvigilationAdapter ia) {
+    public Conflict assign(InvigilationAdapter ia) {
         Exam exam = ia.getExam();
-        log.debug("{}", exam.getStartTime());
+//        log.debug("{}", exam.getStartTime());
         es.addExam(exam);
         List<User> teachers = ia.getTeachers();
-
-        if(teachers.size()!=0){
+        //监考消息
+        message = exam.getName() + "监考任务" + "\n开始时间：" +
+                exam.getStartTime() +
+                "\n结束时间：" +
+                exam.getOverTime() +
+                "\n监考地点：" +
+                exam.getClassroom() +
+                "\n监考教师：";
+        if (teachers.size() != 0) {
+            User teacherRandom = teachers.get(0);
             teachers.forEach(t -> {
+                //分配监考并将对应监考教师监考次数加1
                 Invigilation invigilation = new Invigilation();
                 invigilation.setExam(exam);
-                invigilation.setTitle(exam.getName()+"监考");
+                invigilation.setTitle(exam.getName() + "监考");
                 invigilation.setTeacher(t);
+                t.setFrequency(t.getFrequency() + 1);
                 ir.saveAndFlush(invigilation);
+                t.setPassword(pe.encode(t.getNumber()));
+                ur.saveAndFlush(t);
+                message += t.getName() + " ";
+                if( as.isConflict(t, exam)){
+                    conflictMessage+=(t.getName()+" ");
+                }
             });
-        }else {
+            message += "\n" + teacherRandom.getName() + "同志，您当前监考次数为：" + teacherRandom.getFrequency();
+            log.debug(message);
+        } else {
             Invigilation invigilation = new Invigilation();
             invigilation.setExam(exam);
-            invigilation.setTitle(exam.getName()+"监考");
+            invigilation.setTitle(exam.getName() + "监考");
             ir.saveAndFlush(invigilation);
         }
+      conflictMessage= conflictMessage!=null? conflictMessage+"时间冲突":null;
 
+        Conflict conflict=new Conflict(ia,conflictMessage);
+        return conflict;
     }
 
     public List<Invigilation> list() {
-        return ir.list();
+        List<Invigilation> list = new ArrayList<>();
+        list = ir.list();
+        list.forEach(i -> {
+            i.setOvertime(isOvertime(i));
+        });
+        return list;
     }
 
     public List<InvigilationAdapter> listAdapter() {
@@ -171,11 +202,11 @@ public class InvigilationService {
 
     //修改监考信息
     public List<Invigilation> updateInformation(InvigilationAdapter ia) {
-      Exam exam=ia.getExam();
-      ir.deleteByExam(exam.getId());
+        Exam exam = ia.getExam();
+        ir.deleteByExam(exam.getId());
 //      es.deleteById(exam.getId());
-      assign(ia);
-      return ir.listByExam(exam.getId());
+        assign(ia);
+        return ir.listByExam(exam.getId());
 
 
       /*  return Optional.ofNullable(ir.findById(invigilation.getId()))
@@ -184,6 +215,33 @@ public class InvigilationService {
                 })
                 .map(a -> ir.saveAndFlush(invigilation))
                 .get();*/
+    }
+
+    //回复消息
+    public Invigilation feedBackMessage(Invigilation invigilation) {
+        Invigilation i = ir.findById(invigilation.getId());
+        i.setFeedBackMessage(invigilation.getFeedBackMessage());
+        ir.saveAndFlush(i);
+        return i;
+    }
+
+    public Boolean isOvertime(Invigilation invigilation) {
+        if (invigilation.isOvertime() == true) return true;
+        LocalDateTime nowTime = LocalDateTime.now();
+        Exam e = invigilation.getExam();
+        LocalDateTime examTime = LocalDateTime.of(e.getStartTime().getYear(),
+                e.getStartTime().getMonthValue(),
+                e.getStartTime().getDayOfMonth(),
+                e.getStartTime().getHour(),
+                e.getStartTime().getMinute());
+        if (nowTime.until(examTime, ChronoUnit.HOURS) <= 1) {
+            if ("请于考试开始一小时前回复".equals(invigilation.getFeedBackMessage())) {
+                invigilation.setOvertime(true);
+                ir.saveAndFlush(invigilation);
+                return true;
+            }
+        }
+        return false;
     }
 }
 
