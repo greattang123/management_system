@@ -45,10 +45,14 @@ public class ExamService {
 
     //保证所有考试不冲突
     public Exam addExam(Exam exam) {
-        if (!isExamConflict(exam)) {
-            er.save(exam);
+        if(exam.getStartTime().isAfter(exam.getOverTime())){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "结束时间不能早于开始时间");
         }else{
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "考试冲突");
+            if (!isExamConflict(exam)) {
+                er.save(exam);
+            }else{
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "考试冲突");
+            }
         }
         return exam;
     }
