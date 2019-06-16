@@ -1,11 +1,14 @@
 package com.example.management_system.service;
 
 import com.example.management_system.component.MyException;
+import com.example.management_system.component.Utils;
 import com.example.management_system.entity.Exam;
 import com.example.management_system.repository.ExamRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -18,6 +21,8 @@ public class ExamService {
     @Autowired
     private ExamRepository er;
 
+    boolean result;
+
     public List<Exam> examList() {
         return er.examList();
     }
@@ -28,18 +33,8 @@ public class ExamService {
 
 
     public Exam findExamByTimeAndClassroom(LocalDateTime startTime, int classroom) {
-//        return er.findByTimeAndClassroom(startTime, classroom);
-       /* Exam exam=null;
-        exam=findExamByTimeAndClassroom(startTime, classroom);
-        return exam;*/
-      /* if(findExamByTimeAndClassroom(startTime, classroom)!=null){
-           return findExamByTimeAndClassroom(startTime, classroom);
-       }*/
       //如果数据库中未找到与该段时间和教室相匹配的考试，则返回null
         Exam exam = null;
-
-
-
         try {
             exam = er.findByTimeAndClassroom(startTime, classroom);
         } catch (Exception e) {
@@ -50,13 +45,30 @@ public class ExamService {
 
     //保证所有考试不冲突
     public Exam addExam(Exam exam) {
-        LocalDateTime startTime = exam.getStartTime();
-        int classroom = exam.getClassroom();
-        if (findExamByTimeAndClassroom(startTime, classroom) == null) {
+        if (!isExamConflict(exam)) {
             er.save(exam);
-            return exam;
+        }else{
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "考试冲突");
         }
-        return null;
+        return exam;
+    }
+
+    /**
+     * 判断考试是否冲突
+     * @param exam
+     * @return
+     */
+    public boolean isExamConflict(Exam exam){
+        result = false;
+        List<Exam> exams = er.examList();
+        for (Exam e: exams) {
+            if (Utils.isAgainst(exam.getStartTime(), exam.getOverTime(), e.getStartTime(), e.getOverTime())
+            && e.getClassroom()==exam.getClassroom()) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }
 

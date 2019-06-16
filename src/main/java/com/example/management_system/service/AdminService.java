@@ -1,5 +1,6 @@
 package com.example.management_system.service;
 
+import com.example.management_system.component.Utils;
 import com.example.management_system.entity.Exam;
 import com.example.management_system.entity.Invigilation;
 import com.example.management_system.entity.InvigilationAdapter;
@@ -63,7 +64,7 @@ public class AdminService {
         if(teacher.getFrequency()!=0){
             List<Invigilation>list=is.findByTeacher(teacher.getId());
             for(Invigilation i:list){
-                if(i.getExam().getStartTime().toString().equals(exam.getStartTime().toString())){
+                if(Utils.isAgainst(i.getExam().getStartTime(), i.getExam().getOverTime(),exam.getStartTime(),exam.getOverTime())){
 //                   log.debug("Hi");
                     return true;
                 }
