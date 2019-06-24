@@ -1,7 +1,0 @@
-1.@RequestMapping("/api/teachers")
-  public class TeacherController{
-  @GetMapping("/invigilations")
-      public Map getInvigilations(){
-          return Map.of("invigilations",is.listAdapter() );
-      }
-  }
