@@ -42,7 +42,8 @@ public class Invigilation {
     private int allocatedPersons=0;
     private String feedBackMessage="请于考试开始一小时前回复";
     private boolean isOvertime=false;
-
+    //被监考班级
+    private String clazz;
     public Invigilation(Exam exam) {
         this.exam = exam;
     }

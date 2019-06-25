@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -50,6 +51,9 @@ public class User {
             updatable = false,
             insertable = false)
     private LocalDateTime insertTime;
+
+    @OneToMany
+    private List<CourseSchedule> cs;
 
     public User(int id) {
         this.id = id;
