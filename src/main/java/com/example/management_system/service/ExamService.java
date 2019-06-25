@@ -44,7 +44,10 @@ public class ExamService {
     }
 
     //保证所有考试不冲突
-    public Exam addExam(Exam exam) {
+    public Exam addExam(Exam exam, boolean isNeedCheck) {
+        if(!isNeedCheck){
+            return exam;
+        }
         if(exam.getStartTime().isAfter(exam.getOverTime())){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "结束时间不能早于开始时间");
         }else{

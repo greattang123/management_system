@@ -132,10 +132,10 @@ public class InvigilationService {
         }
 
     }*/
-    public Conflict assign(InvigilationAdapter ia) {
+    public Conflict assign(InvigilationAdapter ia, boolean isNeedCheck) {
         Exam exam = ia.getExam();
 //        log.debug("{}", exam.getStartTime());
-        es.addExam(exam);
+        es.addExam(exam, isNeedCheck);
         List<User> teachers = ia.getTeachers();
         //监考消息
         message = exam.getName() + "监考任务" + "\n开始时间：" +
@@ -207,7 +207,7 @@ public class InvigilationService {
         Exam exam = ia.getExam();
         ir.deleteByExam(exam.getId());
 //      es.deleteById(exam.getId());
-       return assign(ia);
+       return assign(ia,false);
 
       /*  return Optional.ofNullable(ir.findById(invigilation.getId()))
                 .or(() -> {

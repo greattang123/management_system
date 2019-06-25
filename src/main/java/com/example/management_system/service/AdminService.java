@@ -45,7 +45,7 @@ public class AdminService {
         int rest=totalTimes-allocateTimes;
         for(int i=0;i<rest;i++)*/
 
-            is.assign(invigilation);
+            is.assign(invigilation,true);
 
     }
 

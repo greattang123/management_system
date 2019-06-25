@@ -46,7 +46,7 @@ public class AdminController {
     @PostMapping("/add/invigilation")
     public Map addInvigilation(@RequestBody InvigilationAdapter ia) {
 //        is.assign(ia);
-        return Map.of("invigilation", is.assign(ia));
+        return Map.of("invigilation", is.assign(ia, true));
     }
 
     @GetMapping("/invigilations")
