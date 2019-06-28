@@ -16,6 +16,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String classTime;
     @Column(unique = true)
     private int number;
     //学分

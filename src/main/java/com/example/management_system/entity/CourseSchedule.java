@@ -14,6 +14,7 @@ public class CourseSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String name;
     @ManyToOne
     private Course course;
     @ManyToOne

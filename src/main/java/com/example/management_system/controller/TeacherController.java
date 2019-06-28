@@ -1,8 +1,10 @@
 package com.example.management_system.controller;
 
+import com.example.management_system.entity.Course;
 import com.example.management_system.entity.Exam;
 import com.example.management_system.entity.Invigilation;
 import com.example.management_system.entity.User;
+import com.example.management_system.service.CourseScheduleService;
 import com.example.management_system.service.InvigilationService;
 import com.example.management_system.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,8 @@ public class TeacherController {
     private UserService us;
     @Autowired
     private InvigilationService is;
+    @Autowired
+    private CourseScheduleService css;
     @PostMapping("/update")
     public Map update(@RequestBody User user){
         return Map.of("user", us.updateInformation(user));
@@ -46,6 +50,15 @@ public class TeacherController {
     @PostMapping("/invigilation/{id}/feedBackMessage")
     public Map feedBack(@RequestBody Invigilation invigilation){
         return Map.of("feedBackMessage", is.feedBackMessage(invigilation));
+    }
+
+    @GetMapping("/{tid}/course")
+    public Map teacherCourses(@PathVariable int tid){
+//        log.debug("教师的ID是："+tid);
+        List<Course> courses =css.coursesFindByTeacher(tid);
+
+        return  Map.of("teacherCourses",courses);
+
     }
 }
 
