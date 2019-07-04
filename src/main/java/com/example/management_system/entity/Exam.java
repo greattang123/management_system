@@ -25,7 +25,7 @@ public class Exam {
     //持续时间长度
     private int length=2;
     //教室
-    private int classroom;
+    private String classroom;
    //统一考试编号(唯一)
 //    @Column(unique = true)
     private int number;
@@ -35,7 +35,7 @@ public class Exam {
     private LocalDateTime insertTime;
 
     public Exam(String name, LocalDateTime startTime, LocalDateTime overTime,
-                int classroom,int number) {
+                String classroom,int number) {
         this.name = name;
         this.startTime = startTime;
         this.overTime=overTime;

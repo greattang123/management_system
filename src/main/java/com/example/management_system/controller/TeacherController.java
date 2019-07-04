@@ -54,7 +54,8 @@ public class TeacherController {
 
     @GetMapping("/{tid}/course")
     public Map teacherCourses(@PathVariable int tid){
-//        log.debug("教师的ID是："+tid);
+        log.debug("教师的ID是："+tid);
+        System.out.println(tid);
         List<Course> courses =css.coursesFindByTeacher(tid);
 
         return  Map.of("teacherCourses",courses);
